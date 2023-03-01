@@ -6,7 +6,7 @@ export const Header: React.FC = () => {
   React.useEffect(() => {
     const contenair = document.getElementById("contenair");
     const header = document.getElementById("header");
-    const handlerScroll = (e) => {
+    const handlerScroll = (e: Event) => {
       console.log(e);
     };
     contenair?.addEventListener("scroll", handlerScroll);
