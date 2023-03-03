@@ -69,34 +69,42 @@ export const About: React.FC = () => {
           classname={clsx("pr-10", "max-w-lg", "mb-8")}
         >
           <p className={clsx("text-text")}>
-            Re-bonjour, je Re-m'appelle Nicolas, de formation mathématique
-            appliquée dont le but etais d'integrer l'industrie de la banque ou
-            de la finance , je me suis réorienter lors de ma 3eme année de
-            licence vers la programmation.
+            {`
+              Re-bonjour, je Re-m'appelle Nicolas,
+              de formation mathématique appliquée dont le but etais d'integrer
+              l'industrie de la banque ou de la finance , je me suis réorienter
+              lors de ma 3eme année de licence vers la programmation.
+            `}
           </p>
           <p className={clsx("text-text", "mt-3")}>
-            Deux voies m'interressait fortement, tout d'abord le deep learning a
-            ces debut et ensuite le web et son fonctionnement dans un second
-            temps, je me suis donc former en autodidact sur les langages Python
-            et Javascript, sur le web en général et sur le Deep Learning durant
-            quelques années.
+            {`
+              Deux voies m'interressait fortement, tout d'abord le deep learning a
+              ces debut et ensuite le web et son fonctionnement dans un second
+              temps, je me suis donc former en autodidact sur les langages Python
+              et Javascript, sur le web en général et sur le Deep Learning durant
+              quelques années.
+            `}
           </p>
           <p className={clsx("text-text", "mt-3")}>
-            C'est durant cette periode que j'ai eu l'idées qui finira par
-            m'occuper jusqu'à aujourd'hui: la création d'une application SAAS,
-            contenant 2 application mobile React Native, 2 Web App SPA React JS
-            et le tous avec un back-end utilisant plusieurs services AWS tel que
-            (lambda, SNS, SQS, DynamoDB, Cognito etc...).
+            {`
+              C'est durant cette periode que j'ai eu l'idées qui finira par
+              m'occuper jusqu'à aujourd'hui: la création d'une application SAAS,
+              contenant 2 application mobile React Native, 2 Web App SPA React JS
+              et le tous avec un back-end utilisant plusieurs services AWS tel que
+              (lambda, SNS, SQS, DynamoDB, Cognito etc...).
+            `}
           </p>
           <p className={clsx("text-text", "mt-3")}>
-            Après plus de 4 ans passez a travaillez sur ce projet, seul, je me
-            suis rendu compte que la programmation est un sport d'équipe... J'ai
-            donc decidé de passez ce projet en projet annexes et de chercher la
-            prochaine equipe pour laquelle je mettrait mes talents a
-            dispositions.
+            {`
+              Après plus de 4 ans passez a travaillez sur ce projet, seul, je me
+              suis rendu compte que la programmation est un sport d'équipe... J'ai
+              donc decidé de passez ce projet en projet annexes et de chercher la
+              prochaine equipe pour laquelle je mettrait mes talents a
+              dispositions.
+            `}
           </p>
           <p className={clsx("text-text", "mt-3")}>
-            Voici les technologies que j'ai utilisée :
+            {"Voici les technologies que j'ai utilisée :"}
           </p>
           <ul className={clsx("text-text", "grid", "grid-cols-140200", "mt-4")}>
             <li className={classLiTechno}>Typescript</li>
