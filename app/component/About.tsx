@@ -9,7 +9,7 @@ import { WrapperPhoto } from "./WrapperPhoto";
 import { WrapperAnim } from "./WrapperAnim";
 
 const classLiTechno = clsx(
-  "before:content-['▹']",
+  "before:content-[`▹`]",
   "before:text-secondary",
   "before:leading-3",
   "before:text-lg",
