@@ -5,6 +5,11 @@ import agenda from "../public/agenda.jpg";
 import "../styles/globals.css";
 import { Header } from "./component/Header";
 import clsx from "clsx";
+import { Home } from "./component/Home";
+import { NetworkLink } from "./component/NetworkLink";
+import { EmailLink } from "./component/EmailLink";
+import { About } from "./component/About";
+import Link from "next/link";
 
 const animateline = clsx(
   [
@@ -27,10 +32,11 @@ const animateline = clsx(
 
 const style = {
   contenair: clsx(
-    "h-screen w-screen",
     "absolute",
     "top-0",
     "left-0",
+    "bottom-0",
+    "right-0",
     "overflow-y-scroll",
     "bg-primary",
     "overflow-x-hidden"
@@ -38,11 +44,13 @@ const style = {
   header: clsx(
     "fixed",
     "flex h-16",
-    "w-screen",
     "top-0",
+    "left-0",
+    "right-3",
     "justify-end",
     "items-center",
     "flex-row",
+    "bg-primary",
     "pr-8"
   ),
   nav: clsx(
@@ -55,28 +63,31 @@ const style = {
     "pr-4"
   ),
   link: clsx(
-    "before:mr-2",
+    "before:mr-1",
     "before:text-secondary",
     "before:font-mono",
-    "text-text",
+    "text-textLigth",
+    "text-sm",
     "font-serif",
     "hover:text-secondary"
   ),
 };
 
-const Home: React.FC = () => {
+const Main: React.FC = () => {
   return (
     <div
       className={style.contenair}
       id="contenair"
     >
       <Header />
+      <NetworkLink />
+      <EmailLink />
       <header
         id="header"
         className={style.header}
       >
         <nav className={style.nav}>
-          <ol className="flex h-16 bg-primary justify-end items-center flex-row gap-x-6 ">
+          <ol className="flex h-16 bg-primary justify-end items-center flex-row gap-x-10 ">
             <li className="relative">
               <a
                 className={clsx(
@@ -86,7 +97,7 @@ const Home: React.FC = () => {
                 )}
                 href="#about"
               >
-                about
+                A propos
               </a>
             </li>
             <li className="relative">
@@ -98,19 +109,7 @@ const Home: React.FC = () => {
                 )}
                 href="#project"
               >
-                project
-              </a>
-            </li>
-            <li className="relative">
-              <a
-                className={clsx(
-                  "before:content-['03.']",
-                  animateline,
-                  style.link
-                )}
-                href="#jobs"
-              >
-                jobs
+                Projets
               </a>
             </li>
             <li className="relative">
@@ -122,38 +121,38 @@ const Home: React.FC = () => {
                 )}
                 href="#contact"
               >
-                contact
+                Contact
               </a>
             </li>
           </ol>
+          <Link
+            href="/cv-dev-2023.pdf"
+            target="_blank"
+          >
+            <p>Mon CV</p>
+          </Link>
         </nav>
       </header>
       <main
         id="main"
-        className="pt-16"
+        className="pt-16 flex flex-col"
       >
         <section
-          id="about"
-          className="h-screen bg-primary justify-center items-center flex"
+          id="home"
+          className="h-screen w-screen bg-primary justify-center items-center flex"
         >
-          <Image
-            height={400}
-            src={agenda}
-            alt="essai"
-          />
+          <Home />
+        </section>
+        <section
+          id="about"
+          className="w-screen bg-primary justify-center items-center flex"
+        >
+          <About />
         </section>
         <section
           id="project"
-          className="h-screen bg-primary"
-        >
-          work
-        </section>
-        <section
-          id="jobs"
-          className="h-screen bg-primary"
-        >
-          experience
-        </section>
+          className=" bg-primary flex"
+        ></section>
         <section
           id="contact"
           className="h-screen bg-primary"
@@ -165,4 +164,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Main;
