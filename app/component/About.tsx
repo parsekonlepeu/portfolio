@@ -23,7 +23,6 @@ export const About: React.FC = () => {
     const handlerEvent = () => {
       const isIn = ref.current ? isInViewport(ref.current) : false;
       isIn && setAppeared(isIn);
-      console.log("jsui al ! ");
       isIn && contenair?.removeEventListener("scroll", handlerEvent);
     };
     const contenair = document.getElementById("contenair");
@@ -70,7 +69,7 @@ export const About: React.FC = () => {
           classname={clsx("pr-10", "max-w-lg", "mb-8")}
         >
           <p className={clsx("text-text")}>
-            (Re)-bonjour, je (Re)-m'appelle Nicolas, de formation mathématique
+            Re-bonjour, je Re-m'appelle Nicolas, de formation mathématique
             appliquée dont le but etais d'integrer l'industrie de la banque ou
             de la finance , je me suis réorienter lors de ma 3eme année de
             licence vers la programmation.
