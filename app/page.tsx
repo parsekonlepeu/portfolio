@@ -10,6 +10,7 @@ import { NetworkLink } from "./component/NetworkLink";
 import { EmailLink } from "./component/EmailLink";
 import { About } from "./component/About";
 import Link from "next/link";
+import { Realisation } from "./component/Realisation";
 
 const animateline = clsx(
   [
@@ -71,6 +72,14 @@ const style = {
     "font-serif",
     "hover:text-secondary"
   ),
+  sectionBase: clsx(
+    "w-screen",
+    "bg-primary",
+    "justify-center",
+    "items-center",
+    "flex",
+    "bg-lime-800"
+  ),
 };
 
 const Main: React.FC = () => {
@@ -107,9 +116,9 @@ const Main: React.FC = () => {
                   animateline,
                   style.link
                 )}
-                href="#project"
+                href="#Realisation"
               >
-                Projets
+                Realisation
               </a>
             </li>
             <li className="relative">
@@ -135,27 +144,34 @@ const Main: React.FC = () => {
       </header>
       <main
         id="main"
-        className="pt-16 flex flex-col"
+        className="pt-16 flex flex-col pb-96"
       >
         <section
           id="home"
-          className="h-screen w-screen bg-primary justify-center items-center flex"
+          className={clsx(style.sectionBase, "h-screen")}
         >
           <Home />
         </section>
         <section
           id="about"
-          className="w-screen bg-primary justify-center items-center flex"
+          className={clsx(style.sectionBase)}
         >
           <About />
         </section>
         <section
-          id="project"
-          className=" bg-primary flex"
-        ></section>
+          id="Realisation"
+          className={clsx(
+            style.sectionBase,
+            "mt-24",
+            "justify-end",
+            "items-end"
+          )}
+        >
+          <Realisation />
+        </section>
         <section
           id="contact"
-          className="h-screen bg-primary"
+          className={clsx(style.sectionBase)}
         >
           contact
         </section>

@@ -78,3 +78,14 @@ a {
   height: 1px;
   background-color: #233554;
 }
+
+.titre-section-reverse::before {
+  content: '';
+  margin-right: 30px;
+  margin-top: 5px;
+  display: block;
+  position: relative;
+  width: 20vw;
+  height: 1px;
+  background-color: #233554;
+}

@@ -30,6 +30,8 @@ module.exports = {
       },
       translate: {
         "15p": "15%",
+        carrLeft: "calc(-50% - 30px)",
+        carrRight: "calc(-50% + 30px)",
       },
       colors: {
         primary: "#0a192f",
