@@ -6,7 +6,22 @@ import { useAppeared } from "../utils/useAppeared";
 import { WrapperAnim } from "./WrapperAnim";
 import Image from "next/image";
 import diary1 from "../../public/diary-1.png";
+import messageOkeys from "../../public/message_okeys.jpg";
+import prestationOkeys from "../../public/prestation_esthe.jpg";
+import rdvOkeys from "../../public/prise_rdv.jpg";
+import qrOkeys from "../../public/qr_code.jpg";
+import agendaOkeys from "../../public/agenda.jpg";
+import choicePrestOkeys from "../../public/choixOkeys.jpg";
 import { Carroussel } from "./Carroussel";
+
+const imageOkeys = [
+  messageOkeys,
+  prestationOkeys,
+  rdvOkeys,
+  qrOkeys,
+  agendaOkeys,
+  choicePrestOkeys,
+];
 
 export const Realisation: React.FC = () => {
   const { ref, appeared } = useAppeared();
@@ -52,7 +67,12 @@ export const Realisation: React.FC = () => {
           Projets
         </h1>
       </WrapperAnim>
-      <Carroussel />
+      <Carroussel
+        images={imageOkeys}
+        width={200}
+        height={400}
+        typeGapHorizontal={2}
+      />
       {/* <WrapperAnim
         appeared={appeared}
         startAnim="left"
