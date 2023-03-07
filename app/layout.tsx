@@ -15,6 +15,6 @@ export default function RootLayout({
 }
 
 export const metadata = {
-  title: "Home",
+  title: "Nicolas Angeon",
   description: "Welcome to Next.js",
 };

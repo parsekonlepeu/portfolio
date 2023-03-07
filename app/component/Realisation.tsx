@@ -35,7 +35,7 @@ export const Realisation: React.FC = () => {
         "w-2/3",
         "max-w-4xl",
         "items-end",
-        "bg-red-300",
+        // "bg-red-300",
         "relative"
       )}
     >
@@ -67,12 +67,16 @@ export const Realisation: React.FC = () => {
           Projets
         </h1>
       </WrapperAnim>
-      <Carroussel
-        images={imageOkeys}
-        width={200}
-        height={400}
-        typeGapHorizontal={2}
-      />
+      <div className={clsx("w-full", "bg-secondary", "h-auto", "relative")}>
+        <Carroussel
+          images={imageOkeys}
+          width={200}
+          height={400}
+          typeGapHorizontal={2}
+          typeGapVertical={2}
+          Component={Image}
+        />
+      </div>
       {/* <WrapperAnim
         appeared={appeared}
         startAnim="left"
