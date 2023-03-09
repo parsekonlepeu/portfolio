@@ -67,7 +67,7 @@ export const Realisation: React.FC = () => {
           Projets
         </h1>
       </WrapperAnim>
-      <div className={clsx("w-full", "bg-secondary", "h-auto", "relative")}>
+      <div className={clsx("w-full", "h-auto", "relative")}>
         <Carroussel
           images={imageOkeys}
           width={200}

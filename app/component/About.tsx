@@ -32,14 +32,7 @@ export const About: React.FC = () => {
   return (
     <div
       ref={ref}
-      className={clsx(
-        "border-px",
-        "flex",
-        "flex-col",
-        "w-2/3",
-        "max-w-4xl",
-        "bg-slate-400"
-      )}
+      className={clsx("border-px", "flex", "flex-col", "w-2/3", "max-w-4xl")}
     >
       <WrapperAnim
         appeared={appeared}

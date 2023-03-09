@@ -50,6 +50,9 @@ module.exports = {
       gridTemplateColumns: {
         140200: "repeat(2, minmax(140px, 200px))",
       },
+      boxShadow: {
+        all: "0px 0px 10px 3px #64ffda",
+      },
     },
     fontFamily: {
       sans: [

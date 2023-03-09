@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 import * as React from "react";
+import { ButtonCarrousel } from "./ButtonCarroussel";
 
 const pasVariable = 0.0125;
 
@@ -28,13 +29,23 @@ export const Carroussel: React.FC<CarrousselProps> = ({
   typeGapVertical,
   Component,
 }) => {
-  const [indexImageDisplay, setindexImageDisplay] = React.useState(0);
+  const arrayAllNumberState = [0, 1, 2, 3, 4, 5, 6];
+  const arrayIndexImages = images.map((item, index) => index);
+  const numberImage = images.length;
+
+  const [indexImageLoadRight, setIndexImageLoadRight] = React.useState(
+    arrayIndexImages[3]
+  );
+  const [indexImageLoadLeft, setIndexImageLoadLeft] = React.useState(
+    arrayIndexImages.at(-3) as number
+  );
   const [stateNumber, setStateNumber] = React.useState(0);
   const [percentage, setPercentage] = React.useState(0);
   const [mouseDown, setMouseDown] = React.useState(false);
+  const refDirectiobOfmouvement = React.useRef<"right" | "left">("right");
   const refPreviousPosX = React.useRef(0);
   const refStateNumber = React.useRef(0);
-  const refStateNumberStatic = React.useRef(0);
+  const refStateNumberPrevious = React.useRef(0);
   const refPercentage = React.useRef(0);
 
   const getGapHorizontal = (typeGapHorizontal: TypeGapHorizontal) => {
@@ -74,48 +85,84 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       case 2:
         return 2;
       case 3:
-        return -1;
+        return 0;
       case 4:
-        return -1;
+        return percentage > 0.5 ? 2 : 0;
       case 5:
         return 3;
       case 6:
         return percentage > 0.5 ? 10 : 5;
 
       default:
+        return 3;
+    }
+  };
+  const getZIndexReverse = (stateNumber: number, percentage: number) => {
+    switch (stateNumber) {
+      case 0:
+        return percentage < 0.5 ? 10 : 5;
+      case 1:
+        return percentage > 0.5 ? 10 : 5;
+      case 2:
+        return 3;
+      case 3:
+        return percentage > 0.5 ? 2 : 0;
+      case 4:
+        return 0;
+      case 5:
+        return 2;
+      case 6:
+        return 3;
+
+      default:
         return 10;
     }
   };
-  const getTranslateX = (intPart: number, floatPart: number): number => {
+  const getTranslateX = (
+    intPart: number,
+    floatPart: number,
+    gapHorizontal: number
+  ): number => {
     switch (intPart) {
       case 0:
-        return floatPart * -gapHorizontal;
-      case 1:
-        return -gapHorizontal + floatPart * -gapHorizontal;
-      case 2:
-        return -(2 * gapHorizontal);
-      case 3:
-        return -(2 * gapHorizontal) + floatPart * 4 * gapHorizontal;
-      case 4:
-        return 2 * gapHorizontal;
-      case 5:
-        return 2 * gapHorizontal - floatPart * gapHorizontal;
-      case 6:
-        return gapHorizontal + floatPart * -gapHorizontal;
-      case -1:
         return floatPart * gapHorizontal;
-      case -2:
-        return gapHorizontal + floatPart * -gapHorizontal;
-      case -3:
-        return -(2 * gapHorizontal);
-      case -4:
-        return -(2 * gapHorizontal) + floatPart * 4 * gapHorizontal;
-      case -5:
+      case 1:
+        return gapHorizontal + floatPart * gapHorizontal;
+      case 2:
         return 2 * gapHorizontal;
-      case -6:
+      case 3:
+        return 2 * gapHorizontal - floatPart * 4 * gapHorizontal;
+      case 4:
+        return -2 * gapHorizontal;
+      case 5:
+        return -2 * gapHorizontal + floatPart * gapHorizontal;
+      case 6:
+        return -gapHorizontal + floatPart * gapHorizontal;
+
+      default:
+        return floatPart * 0;
+    }
+  };
+  const getTranslateXReverse = (
+    intPart: number,
+    floatPart: number,
+    gapHorizontal: number
+  ): number => {
+    switch (intPart) {
+      case 0:
+        return -floatPart * gapHorizontal;
+      case 1:
+        return gapHorizontal - floatPart * gapHorizontal;
+      case 2:
         return 2 * gapHorizontal - floatPart * gapHorizontal;
-      case -7:
-        return gapHorizontal + floatPart * -gapHorizontal;
+      case 3:
+        return 2 * gapHorizontal;
+      case 4:
+        return -2 * gapHorizontal + floatPart * 4 * gapHorizontal;
+      case 5:
+        return -2 * gapHorizontal;
+      case 6:
+        return -gapHorizontal - floatPart * gapHorizontal;
 
       default:
         return floatPart * 0;
@@ -142,51 +189,95 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         return floatPart * 1;
     }
   };
+  const getTranslateZReverse = (intPart: number, floatPart: number) => {
+    switch (intPart) {
+      case 0:
+        return 0 - floatPart * spacebetweenRow;
+      case 1:
+        return -spacebetweenRow + floatPart * spacebetweenRow;
+      case 2:
+        return -2 * spacebetweenRow + floatPart * spacebetweenRow;
+      case 3:
+        return -3 * spacebetweenRow + floatPart * spacebetweenRow;
+      case 4:
+        return -3 * spacebetweenRow;
+      case 5:
+        return -2 * spacebetweenRow - floatPart * spacebetweenRow;
+      case 6:
+        return -spacebetweenRow - floatPart * spacebetweenRow;
+
+      default:
+        return floatPart * 1;
+    }
+  };
   const makeHandlepointerMove =
     (xInit: number, imagesLenght: number) => (e: PointerEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const nbrBrut = (e.clientX - xInit) * pasVariable;
-      const valeurEntier = Math.floor(nbrBrut);
-      const valeurFlootante = nbrBrut - valeurEntier;
-      const restPar7deValeurEntier =
-        ((valeurEntier % 7) + refStateNumberStatic.current) % 7;
-      setStateNumber(restPar7deValeurEntier);
+      const movementX = (e.clientX - xInit) * pasVariable;
+      const arraySplit = movementX.toString().split(".");
+      const valeurEntier = parseInt(arraySplit[0], 10);
+      const valeurFlootante = parseFloat(`0.${arraySplit[1]}`);
+      const indexCurrentNumber = arrayAllNumberState.findIndex(
+        (item) => item === refStateNumberPrevious.current
+      );
+      const newStateNumber = arrayAllNumberState.at(
+        (indexCurrentNumber + valeurEntier) % 7
+      ) as number;
+      setStateNumber(newStateNumber);
       setPercentage(valeurFlootante);
-      // console.log("refStateNumber.current : ", refStateNumber.current);
-      // console.log("restPar7deValeurEntier : ", restPar7deValeurEntier);
-      if (refStateNumber.current < restPar7deValeurEntier) {
-        setindexImageDisplay((prev) =>
-          prev + 1 >= imagesLenght ? 0 : prev + 1
-        );
-      } else if (refStateNumber.current > restPar7deValeurEntier) {
-        setindexImageDisplay((prev) =>
-          prev - 1 >= 0 ? prev - 1 : imagesLenght - 1
-        );
-      }
-      refStateNumber.current = restPar7deValeurEntier;
-      refPercentage.current = valeurFlootante;
 
-      const diffPrevNext = nbrBrut - refPreviousPosX.current;
-      refPreviousPosX.current = nbrBrut;
-      // console.log("diffPrevNext : ", diffPrevNext);
+      const diffPrevNext = movementX - refPreviousPosX.current;
+      refPreviousPosX.current = movementX;
+      const directionmovement = movementX < 0 ? "left" : "right";
+      refDirectiobOfmouvement.current = directionmovement;
+      if (refStateNumber.current !== newStateNumber) {
+        if (refDirectiobOfmouvement.current === "right") {
+          console.log("dans la droite");
+          if (diffPrevNext > 0) {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev + 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev + 1) % numberImage);
+          } else {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev - 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev - 1) % numberImage);
+          }
+        } else {
+          console.log("dans la gauche");
+          if (diffPrevNext < 0) {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev - 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev - 1) % numberImage);
+          } else {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev + 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev + 1) % numberImage);
+          }
+        }
+      }
+      refStateNumber.current = newStateNumber;
+      refPercentage.current = valeurFlootante;
     };
   const makeHandleTouchMove = (xInit: number) => (e: TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const nbrBrut = (e.touches[0].clientX - xInit) * pasVariable;
-    const valeurEntier = Math.floor(nbrBrut);
-    const valeurFlootante = nbrBrut - valeurEntier;
+    const movementX = (e.touches[0].clientX - xInit) * pasVariable;
+    const valeurEntier = Math.floor(movementX);
+    const valeurFlootante = movementX - valeurEntier;
     const restPar7deValeurEntier =
-      ((valeurEntier % 7) + refStateNumberStatic.current) % 7;
+      ((valeurEntier % 7) + refStateNumberPrevious.current) % 7;
     setStateNumber(restPar7deValeurEntier);
     setPercentage(valeurFlootante);
     refStateNumber.current = restPar7deValeurEntier;
     refPercentage.current = valeurFlootante;
 
-    const diffPrevNext = nbrBrut - refPreviousPosX.current;
-    refPreviousPosX.current = nbrBrut;
-    console.log("diffPrevNext : ", diffPrevNext);
+    const diffPrevNext = movementX - refPreviousPosX.current;
+    refPreviousPosX.current = movementX;
   };
   const handleTouchStart = React.useCallback((e: React.TouchEvent) => {
     const handlepointerMove = makeHandleTouchMove(e.touches[0].clientX);
@@ -199,7 +290,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           refStateNumber.current + refPercentage.current
         );
         setStateNumber(newStateNumber === 7 ? 0 : newStateNumber);
-        refStateNumberStatic.current =
+        refStateNumberPrevious.current =
           newStateNumber === 7 ? 0 : newStateNumber;
         setPercentage(0);
         setMouseDown(false);
@@ -210,18 +301,36 @@ export const Carroussel: React.FC<CarrousselProps> = ({
     );
   }, []);
   const handlePointerDown = React.useCallback((e: React.PointerEvent) => {
+    console.log("");
     const handlepointerMove = makeHandlepointerMove(e.clientX, images.length);
     setMouseDown(true);
     document.addEventListener("pointermove", handlepointerMove);
     document.addEventListener(
       "pointerup",
       () => {
-        const newStateNumber = Math.round(
-          refStateNumber.current + refPercentage.current
-        );
+        const newStateNumber =
+          refDirectiobOfmouvement.current === "right"
+            ? Math.round(refStateNumber.current + refPercentage.current)
+            : (arrayAllNumberState.at(
+                Math.round(refStateNumber.current - refPercentage.current)
+              ) as number);
+        if (newStateNumber !== refStateNumber.current) {
+          if (refDirectiobOfmouvement.current === "right") {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev + 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev + 1) % numberImage);
+          } else {
+            setIndexImageLoadRight(
+              (prev) => Math.round(prev - 1) % numberImage
+            );
+            setIndexImageLoadLeft((prev) => Math.round(prev - 1) % numberImage);
+          }
+        }
         setStateNumber(newStateNumber === 7 ? 0 : newStateNumber);
-        refStateNumberStatic.current =
+        refStateNumberPrevious.current =
           newStateNumber === 7 ? 0 : newStateNumber;
+        refStateNumber.current = newStateNumber === 7 ? 0 : newStateNumber;
         setPercentage(0);
         setMouseDown(false);
         refPercentage.current = 0;
@@ -236,51 +345,102 @@ export const Carroussel: React.FC<CarrousselProps> = ({
     numberOfImage: number,
     width: number
   ) => {
-    const transZ = getTranslateZ((stateNumber + numberOfImage) % 7, percentage);
-    const transX = getTranslateX((stateNumber + numberOfImage) % 7, percentage);
+    const intPart = (stateNumber + numberOfImage) % 7;
+    const transZ =
+      refDirectiobOfmouvement.current === "right"
+        ? getTranslateZ(intPart, percentage)
+        : getTranslateZReverse(intPart, percentage);
+    const transX =
+      refDirectiobOfmouvement.current === "right"
+        ? getTranslateX(intPart, percentage, gapHorizontal)
+        : getTranslateXReverse(intPart, percentage, gapHorizontal);
+    const zIndex =
+      refDirectiobOfmouvement.current === "right"
+        ? getZIndex(intPart, percentage)
+        : getZIndexReverse(intPart, percentage);
     return {
       top: "20px",
       left: width + "px",
       transform: `perspective(300px) translateZ(${transZ}px)  translateX(${transX}px)`,
-      zIndex: getZIndex((stateNumber + numberOfImage) % 7, percentage),
+      zIndex: zIndex,
       transition: mouseDown ? undefined : "0.5s",
     };
   };
   const getImageDisplay = () => {};
+  const handlePointerEnter = React.useCallback(
+    (color: string) => (e: React.PointerEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement;
+      target.style.boxShadow = `0px 0px 20px 3px ${color}`;
+    },
+    []
+  );
+  const handlePointerOut = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement;
+      target.style.boxShadow = "";
+    },
+    []
+  );
 
-  React.useEffect(() => {
-    console.log("indexImageDisplay : ", indexImageDisplay);
-    console.log("stateNumber : ", stateNumber);
-  }, [indexImageDisplay, stateNumber]);
+  // React.useEffect(() => {
+  //   console.log("indexImageLoadRight", indexImageLoadRight);
+  //   console.log("indexImageLoadLeft", indexImageLoadLeft);
+  // }, [indexImageLoadLeft, indexImageLoadRight]);
 
   const gapHorizontal = width / getGapHorizontal(typeGapHorizontal);
   const spacebetweenRow = getGapVertical(typeGapVertical);
   const contenairWidth = 3 * width;
 
   const getIndexImage = (
-    indexImageDisplay: number,
-    numberCurrentImage: number,
-    stateNumber: number
+    indexImageLoadLeft: number,
+    indexImageLoadRight: number,
+    stateNumber: number,
+    numberImage: number
   ) => {
     switch (stateNumber) {
       case 0:
-        break;
+        return (indexImageLoadRight + 3) % numberImage;
       case 1:
-        break;
+        return (indexImageLoadRight + 2) % numberImage;
       case 2:
-        break;
+        return (indexImageLoadRight + 1) % numberImage;
       case 3:
-        break;
+        return indexImageLoadRight;
       case 4:
-        break;
+        return indexImageLoadLeft;
       case 5:
-        break;
+        return (indexImageLoadLeft - 1) % numberImage;
       case 6:
-        break;
+        return (indexImageLoadLeft - 2) % numberImage;
 
       default:
-        break;
+        return 0;
     }
+  };
+
+  const handleClickButtonLeft = (e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIndexImageLoadRight((prev) => Math.round(prev + 1) % numberImage);
+    setIndexImageLoadLeft((prev) => Math.round(prev + 1) % numberImage);
+    setStateNumber((previousState) =>
+      previousState + 1 === 7 ? 0 : previousState + 1
+    );
+    setPercentage(0);
+    setMouseDown(false);
+  };
+
+  const handleClickButtonRight = (e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIndexImageLoadRight((prev) => Math.round(prev - 1) % numberImage);
+    setIndexImageLoadLeft((prev) => Math.round(prev - 1) % numberImage);
+    setStateNumber(
+      (previousState) =>
+        arrayAllNumberState.at(previousState - (1 % 7)) as number
+    );
+    setPercentage(0);
+    setMouseDown(false);
   };
 
   return (
@@ -294,19 +454,42 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       onPointerDown={handlePointerDown}
       onTouchStart={handleTouchStart}
     >
+      <ButtonCarrousel
+        width={20}
+        height={20}
+        onClick={handleClickButtonLeft}
+        color="#64ffda"
+      />
+      <ButtonCarrousel
+        width={20}
+        height={20}
+        reverse
+        onClick={handleClickButtonRight}
+        color="#64ffda"
+      />
       <div
         id="contenair-image-0"
-        className={clsx("bg-red-800", "absolute")}
+        className={clsx("bg-red-800", "absolute", "hover:shadow-2xl")}
         style={{
           ...getStyle(stateNumber, percentage, 0, width),
           height: height,
           width: width,
+          cursor: stateNumber === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          stateNumber === 0 ? handlePointerEnter("#64ffda") : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
           images={images}
-          indexImage={0}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            stateNumber,
+            numberImage
+          )}
         />
         <div
           className={clsx(
@@ -327,12 +510,24 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 1, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 1) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 1) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
           images={images}
-          indexImage={1}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 1) % 7,
+            numberImage
+          )}
         />
         <div
           className={clsx(
@@ -353,12 +548,24 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 2, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 2) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 2) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
           images={images}
-          indexImage={2}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 2) % 7,
+            numberImage
+          )}
         />
         <div
           className={clsx(
@@ -371,11 +578,6 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         >
           2eme
         </div>
-        {/* <Image
-          src={images[2]}
-          alt="image 2"
-          fill
-        /> */}
       </div>
       <div
         id="contenair-image-3"
@@ -384,8 +586,25 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 3, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 3) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 3) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
+        <WrapperComponent
+          Component={Component}
+          images={images}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 3) % 7,
+            numberImage
+          )}
+        />
         <div
           className={clsx(
             "absolute",
@@ -405,8 +624,25 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 4, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 4) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 4) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
+        <WrapperComponent
+          Component={Component}
+          images={images}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 4) % 7,
+            numberImage
+          )}
+        />
         <div
           className={clsx(
             "absolute",
@@ -426,12 +662,24 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 5, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 5) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 5) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
           images={images}
-          indexImage={3}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 5) % 7,
+            numberImage
+          )}
         />
         <div
           className={clsx(
@@ -444,11 +692,6 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         >
           5eme
         </div>
-        {/* <Image
-          src={images[3]}
-          alt="image 3"
-          fill
-        /> */}
       </div>
       <div
         id="contenair-image-6"
@@ -457,12 +700,24 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           ...getStyle(stateNumber, percentage, 6, width),
           height: height,
           width: width,
+          cursor: (stateNumber + 6) % 7 === 0 ? "pointer" : "grab",
         }}
+        onPointerEnter={
+          (stateNumber + 6) % 7 === 0
+            ? handlePointerEnter("#64ffda")
+            : undefined
+        }
+        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
           images={images}
-          indexImage={4}
+          indexImage={getIndexImage(
+            indexImageLoadLeft,
+            indexImageLoadRight,
+            (stateNumber + 6) % 7,
+            numberImage
+          )}
         />
         <div
           className={clsx(
@@ -475,11 +730,6 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         >
           6eme
         </div>
-        {/* <Image
-          src={images[4]}
-          alt="image 4"
-          fill
-        /> */}
       </div>
     </div>
   );
@@ -491,16 +741,17 @@ type WrapperComponentProps = {
   indexImage: number;
 };
 
-const WrapperComponent: React.FC<WrapperComponentProps> = ({
-  Component,
-  images,
-  indexImage,
-}) => {
-  return (
-    <Component
-      src={images[indexImage]}
-      alt="image 0"
-      fill
-    />
-  );
-};
+const WrapperComponent: React.FC<WrapperComponentProps> = React.memo(
+  ({ Component, images, indexImage }) => {
+    return (
+      <Component
+        src={images.at(indexImage)}
+        alt="image 0"
+        fill
+      />
+    );
+  },
+  (prevProps, nextProps) => {
+    return prevProps.indexImage === nextProps.indexImage;
+  }
+);
