@@ -6,7 +6,7 @@ export const useVisible = () => {
     if (window.innerWidth > 950) {
       setVisible(true);
     }
-  });
+  }, []);
   React.useEffect(() => {
     const handleResize = (e: Event): any => {
       const window = e.target as Window;

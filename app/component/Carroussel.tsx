@@ -31,7 +31,8 @@ export const Carroussel: React.FC<CarrousselProps> = ({
   Component,
   color,
 }) => {
-  const arrayAllNumberState = [0, 1, 2, 3, 4, 5, 6];
+  // To Do : ecrire useConst pour stocker ces const dans une ref !!
+  const arrayAllNumberState = React.useMemo(() => [0, 1, 2, 3, 4, 5, 6], []);
   const arrayIndexImages = images.map((item, index) => index);
   const numberImage = images.length;
 
@@ -303,8 +304,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
     );
   }, []);
   const handlePointerDown = React.useCallback((e: React.PointerEvent) => {
-    console.log("");
-    const handlepointerMove = makeHandlepointerMove(e.clientX, images.length);
+    const handlepointerMove = makeHandlepointerMove(e.clientX, numberImage);
     setMouseDown(true);
     document.addEventListener("pointermove", handlepointerMove);
     document.addEventListener(
@@ -691,6 +691,7 @@ type WrapperComponentProps = {
   indexImage: number;
 };
 
+// eslint-disable-next-line react/display-name
 const WrapperComponent: React.FC<WrapperComponentProps> = React.memo(
   ({ Component, images, indexImage }) => {
     return (
