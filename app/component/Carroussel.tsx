@@ -19,6 +19,7 @@ type CarrousselProps = {
   width: number;
   typeGapHorizontal: TypeGapHorizontal;
   typeGapVertical: TypeGapVertical;
+  color: string;
 };
 
 export const Carroussel: React.FC<CarrousselProps> = ({
@@ -28,6 +29,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
   typeGapHorizontal,
   typeGapVertical,
   Component,
+  color,
 }) => {
   const arrayAllNumberState = [0, 1, 2, 3, 4, 5, 6];
   const arrayIndexImages = images.map((item, index) => index);
@@ -234,7 +236,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       if (refStateNumber.current !== newStateNumber) {
         if (refDirectiobOfmouvement.current === "right") {
           console.log("dans la droite");
-          if (diffPrevNext > 0) {
+          if (diffPrevNext < 0) {
             setIndexImageLoadRight(
               (prev) => Math.round(prev + 1) % numberImage
             );
@@ -247,7 +249,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
           }
         } else {
           console.log("dans la gauche");
-          if (diffPrevNext < 0) {
+          if (diffPrevNext > 0) {
             setIndexImageLoadRight(
               (prev) => Math.round(prev - 1) % numberImage
             );
@@ -315,7 +317,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
                 Math.round(refStateNumber.current - refPercentage.current)
               ) as number);
         if (newStateNumber !== refStateNumber.current) {
-          if (refDirectiobOfmouvement.current === "right") {
+          if (refDirectiobOfmouvement.current !== "right") {
             setIndexImageLoadRight(
               (prev) => Math.round(prev + 1) % numberImage
             );
@@ -359,28 +361,11 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         ? getZIndex(intPart, percentage)
         : getZIndexReverse(intPart, percentage);
     return {
-      top: "20px",
-      left: width + "px",
       transform: `perspective(300px) translateZ(${transZ}px)  translateX(${transX}px)`,
       zIndex: zIndex,
       transition: mouseDown ? undefined : "0.5s",
     };
   };
-  const getImageDisplay = () => {};
-  const handlePointerEnter = React.useCallback(
-    (color: string) => (e: React.PointerEvent<HTMLDivElement>) => {
-      const target = e.target as HTMLElement;
-      target.style.boxShadow = `0px 0px 20px 3px ${color}`;
-    },
-    []
-  );
-  const handlePointerOut = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      const target = e.target as HTMLElement;
-      target.style.boxShadow = "";
-    },
-    []
-  );
 
   // React.useEffect(() => {
   //   console.log("indexImageLoadRight", indexImageLoadRight);
@@ -399,45 +384,45 @@ export const Carroussel: React.FC<CarrousselProps> = ({
   ) => {
     switch (stateNumber) {
       case 0:
-        return (indexImageLoadRight + 3) % numberImage;
+        return (indexImageLoadRight - 3) % numberImage;
       case 1:
-        return (indexImageLoadRight + 2) % numberImage;
+        return (indexImageLoadRight - 2) % numberImage;
       case 2:
-        return (indexImageLoadRight + 1) % numberImage;
+        return (indexImageLoadRight - 1) % numberImage;
       case 3:
         return indexImageLoadRight;
       case 4:
         return indexImageLoadLeft;
       case 5:
-        return (indexImageLoadLeft - 1) % numberImage;
+        return (indexImageLoadLeft + 1) % numberImage;
       case 6:
-        return (indexImageLoadLeft - 2) % numberImage;
+        return (indexImageLoadLeft + 2) % numberImage;
 
       default:
         return 0;
     }
   };
 
-  const handleClickButtonLeft = (e: React.PointerEvent) => {
+  const handleClickButtonRight = (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIndexImageLoadRight((prev) => Math.round(prev + 1) % numberImage);
     setIndexImageLoadLeft((prev) => Math.round(prev + 1) % numberImage);
-    setStateNumber((previousState) =>
-      previousState + 1 === 7 ? 0 : previousState + 1
+    setStateNumber(
+      (previousState) =>
+        arrayAllNumberState.at(previousState - (1 % 7)) as number
     );
     setPercentage(0);
     setMouseDown(false);
   };
 
-  const handleClickButtonRight = (e: React.PointerEvent) => {
+  const handleClickButtonLeft = (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIndexImageLoadRight((prev) => Math.round(prev - 1) % numberImage);
     setIndexImageLoadLeft((prev) => Math.round(prev - 1) % numberImage);
-    setStateNumber(
-      (previousState) =>
-        arrayAllNumberState.at(previousState - (1 % 7)) as number
+    setStateNumber((previousState) =>
+      previousState + 1 === 7 ? 0 : previousState + 1
     );
     setPercentage(0);
     setMouseDown(false);
@@ -448,8 +433,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       id="carroussel"
       className={clsx("relative", "cursor-grab")}
       style={{
-        height: `${height + 40}px`,
-        width: `${contenairWidth}px`,
+        height: `${height + 100}px`,
+        width: "auto",
+        // width: `${contenairWidth}px`,
+        // backgroundColor: "red",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       onPointerDown={handlePointerDown}
       onTouchStart={handleTouchStart}
@@ -457,29 +447,25 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       <ButtonCarrousel
         width={20}
         height={20}
-        onClick={handleClickButtonLeft}
-        color="#64ffda"
+        onClick={handleClickButtonRight}
+        color={color}
       />
       <ButtonCarrousel
         width={20}
         height={20}
         reverse
-        onClick={handleClickButtonRight}
-        color="#64ffda"
+        onClick={handleClickButtonLeft}
+        color={color}
       />
       <div
         id="contenair-image-0"
-        className={clsx("bg-red-800", "absolute", "hover:shadow-2xl")}
+        className={clsx("bg-red-800", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 0, width),
           height: height,
           width: width,
           cursor: stateNumber === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          stateNumber === 0 ? handlePointerEnter("#64ffda") : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -505,19 +491,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-1"
-        className={clsx("bg-green-800", "absolute")}
+        className={clsx("bg-green-800", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 1, width),
           height: height,
           width: width,
           cursor: (stateNumber + 1) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 1) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -543,19 +523,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-2"
-        className={clsx("bg-secondary", "absolute")}
+        className={clsx("bg-secondary", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 2, width),
           height: height,
           width: width,
           cursor: (stateNumber + 2) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 2) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -581,19 +555,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-3"
-        className={clsx("bg-yellow-700", "absolute")}
+        className={clsx("bg-yellow-700", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 3, width),
           height: height,
           width: width,
           cursor: (stateNumber + 3) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 3) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -619,19 +587,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-4"
-        className={clsx("bg-sky-700", "absolute")}
+        className={clsx("bg-sky-700", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 4, width),
           height: height,
           width: width,
           cursor: (stateNumber + 4) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 4) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -657,19 +619,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-5"
-        className={clsx("bg-purple-700", "absolute")}
+        className={clsx("bg-purple-700", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 5, width),
           height: height,
           width: width,
           cursor: (stateNumber + 5) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 5) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}
@@ -695,19 +651,13 @@ export const Carroussel: React.FC<CarrousselProps> = ({
       </div>
       <div
         id="contenair-image-6"
-        className={clsx("bg-indigo-900", "absolute")}
+        className={clsx("bg-indigo-900", "absolute", "shadow-all")}
         style={{
           ...getStyle(stateNumber, percentage, 6, width),
           height: height,
           width: width,
           cursor: (stateNumber + 6) % 7 === 0 ? "pointer" : "grab",
         }}
-        onPointerEnter={
-          (stateNumber + 6) % 7 === 0
-            ? handlePointerEnter("#64ffda")
-            : undefined
-        }
-        onPointerOut={handlePointerOut}
       >
         <WrapperComponent
           Component={Component}

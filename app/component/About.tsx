@@ -32,7 +32,14 @@ export const About: React.FC = () => {
   return (
     <div
       ref={ref}
-      className={clsx("border-px", "flex", "flex-col", "w-2/3", "max-w-4xl")}
+      className={clsx(
+        "border-px",
+        "flex",
+        "flex-col",
+        "w-2/3",
+        "max-w-4xl",
+        "forAbout:w-11/12"
+      )}
     >
       <WrapperAnim
         appeared={appeared}
@@ -62,7 +69,16 @@ export const About: React.FC = () => {
           A propos
         </h1>
       </WrapperAnim>
-      <div className={clsx("flex", "flex-wrap", "flex-row")}>
+      <div
+        className={clsx(
+          "flex",
+          "flex-wrap",
+          "flex-row",
+          "forAboutLarge:items-center",
+          "forAboutLarge:justify-center",
+          "forAbout:flex-col"
+        )}
+      >
         <WrapperAnim
           appeared={appeared}
           startAnim="left"

@@ -25,16 +25,16 @@ export const ButtonCarrousel: React.FC<ButtonCarrouselProps> = ({
         "shadow-lg",
         "rounded-full",
         "absolute",
-        "bottom-1/2",
+        "bottom-0",
         "hover:shadow-all"
       )}
       style={{
         width: `${width + 20}px`,
         height: `${height + 20}px`,
         transform: reverse ? "rotate(180deg)" : undefined,
-        left: reverse ? "0px" : undefined,
-        right: reverse ? undefined : "0px",
-        // boxShadow: "0px 0px 10px 3px red",
+        // bottom: "0px",
+        left: reverse ? "calc(50% - 100px)" : undefined,
+        right: reverse ? undefined : "calc(50% - 100px)",
       }}
       onPointerDown={onClick}
     >

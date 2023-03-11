@@ -52,7 +52,9 @@ const style = {
     "items-center",
     "flex-row",
     "bg-primary",
-    "pr-8"
+    "pr-8",
+    "bg-primary",
+    "z-50"
   ),
   nav: clsx(
     "flex",
