@@ -97,6 +97,7 @@ export const Carroussel: React.FC<CarrousselProps> = ({
         {arrayForMap.current.map((item, index) => {
           return (
             <div
+              key={index.toString()}
               className={clsx("absolute", "cursor-grab")}
               style={{
                 ...getStyle(
