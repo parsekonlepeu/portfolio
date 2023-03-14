@@ -9,14 +9,7 @@ export const Home: React.FC = () => {
     setIsMounted(true);
   }, []);
   return (
-    <div
-      className={clsx(
-        "w-1/2",
-        "origin-left",
-        "-translate-x-15p",
-        "-translate-y-15p"
-      )}
-    >
+    <div className={clsx("w-full", "h-auto", "-translate-y-15p", "max-w-1000")}>
       <div>
         <h1
           className={clsx("font-mono", "text-secondary")}
@@ -33,7 +26,8 @@ export const Home: React.FC = () => {
         <h2
           className={clsx(
             "text-textLigthLigth",
-            "text-6xl",
+            "text-title",
+            // "forAbout:text-lg",
             "font-bold",
             "font-sans",
             "leading-tight"
@@ -51,7 +45,9 @@ export const Home: React.FC = () => {
         <h3
           className={clsx(
             "text-text",
-            "text-6xl",
+            "text-title",
+            // "text-6xl",
+            // "forAbout:text-3xl",
             "font-bold",
             "leading-tight"
           )}
@@ -61,12 +57,19 @@ export const Home: React.FC = () => {
             transform: isMounted ? "translateX(0px)" : "translateX(-100px)",
           }}
         >
-          Développeur Front-end Web et Mobile.
+          Développeur Front-end React et React Native.
         </h3>
       </div>
       <div className={clsx("mt-8 mb-8")}>
         <p
-          className={clsx("text-text", "leading-tight")}
+          className={clsx(
+            "text-text",
+            "leading-7",
+            "font-sans",
+            "max-w-2xl",
+            "font-semibold",
+            "block"
+          )}
           style={{
             transition: ".5s",
             opacity: isMounted ? "1" : "0",
@@ -74,12 +77,10 @@ export const Home: React.FC = () => {
           }}
         >
           Autodidact ayant plusieurs années de pratique pour les besoins d'un
-          projet personnel. <br /> Passionné par l'utilisation de la
-          programmation et de l'algorithmie pour resoudre divers problèmes,
-          <br />
-          je pense avoir acquis une certaine expertise dans le développement
-          d'application <br /> et par conséquent pourrai poser ma pierre a
-          l'édifice de projet plus grand.
+          projet personnel. Passionné par l'utilisation de la programmation et
+          de l'algorithmie pour resoudre divers problèmes, je pense avoir acquis
+          une certaine expertise dans le développement d'applications et par
+          conséquent pourrai poser ma pierre a l'édifice de projets plus grand.
         </p>
       </div>
     </div>

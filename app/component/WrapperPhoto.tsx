@@ -14,12 +14,12 @@ export const WrapperPhoto: React.FC<React.PropsWithChildren> = ({
   return (
     <div
       className={clsx(
+        "flex-1",
         "relative",
         "block",
         "z-20",
         "rounded-md",
         "bg-secondary",
-        "hover:bg-transparent",
         [
           "before:content-['']",
           "before:bg-transparent",
@@ -31,8 +31,6 @@ export const WrapperPhoto: React.FC<React.PropsWithChildren> = ({
           "before:absolute",
         ]
       )}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
     >
       <div
         className={clsx(
@@ -59,8 +57,12 @@ export const WrapperPhoto: React.FC<React.PropsWithChildren> = ({
           "contrast-100",
           "grayscale",
           "hover:grayscale-0",
-          "hover:mix-blend-normal"
+          "hover:mix-blend-normal",
+          "h-full",
+          "w-full"
         )}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
       >
         {children}
       </div>

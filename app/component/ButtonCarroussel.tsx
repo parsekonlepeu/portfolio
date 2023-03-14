@@ -5,7 +5,8 @@ type ButtonCarrouselProps = {
   width: number;
   height: number;
   reverse?: boolean;
-  onClick: (e: React.PointerEvent) => void;
+  onPointerDown: (e: React.PointerEvent | React.TouchEvent) => void;
+  onPointerUp: (e: React.PointerEvent | React.TouchEvent) => void;
   color: string;
 };
 
@@ -13,7 +14,8 @@ export const ButtonCarrousel: React.FC<ButtonCarrouselProps> = ({
   width,
   height,
   reverse,
-  onClick,
+  onPointerDown,
+  onPointerUp,
   color,
 }) => {
   return (
@@ -32,11 +34,11 @@ export const ButtonCarrousel: React.FC<ButtonCarrouselProps> = ({
         width: `${width + 20}px`,
         height: `${height + 20}px`,
         transform: reverse ? "rotate(180deg)" : undefined,
-        // bottom: "0px",
         left: reverse ? "calc(50% - 100px)" : undefined,
         right: reverse ? undefined : "calc(50% - 100px)",
       }}
-      onPointerDown={onClick}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
     >
       <svg
         version="1.0"

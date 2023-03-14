@@ -90,7 +90,9 @@ const style = {
     "border-t-primaryLigthLigth",
     "border-l-primaryLigthLigth",
     "border-b-primary",
-    "border-r-primary"
+    "border-r-primary",
+    "forAbout:w-11/12",
+    "forAbout:text-sm"
   ),
   link: clsx(
     "relative",
@@ -116,7 +118,8 @@ const style = {
     "before:font-mono",
     "text-sm",
     "font-serif",
-    "text-secondary"
+    "text-secondary",
+    "font-semibold"
   ),
   title: clsx(
     "titre-section-reverse",
@@ -151,25 +154,24 @@ export const Realisation: React.FC = () => {
       height: 300,
     });
   React.useEffect(() => {
-    const handleResize = (e: Event): any => {
-      const window = e.target as Window;
+    const handleResizeHorizontal = (): any => {
       console.log(window.innerWidth);
-      if (window.innerWidth <= 1250 && window.innerWidth > 950) {
+      if (window.innerWidth <= 1250 && window.innerWidth > 700) {
         setSizeCarrousselHorizontal({
           width: 500,
           height: 250,
         });
-      } else if (window.innerWidth <= 950 && window.innerWidth > 550) {
+      } else if (window.innerWidth <= 700 && window.innerWidth > 560) {
         setSizeCarrousselHorizontal({
           width: 400,
           height: 200,
         });
-      } else if (window.innerWidth <= 550 && window.innerWidth > 440) {
+      } else if (window.innerWidth <= 560 && window.innerWidth > 420) {
         setSizeCarrousselHorizontal({
-          width: 350,
-          height: 175,
+          width: 300,
+          height: 150,
         });
-      } else if (window.innerWidth <= 440) {
+      } else if (window.innerWidth <= 420) {
         setSizeCarrousselHorizontal({
           width: 250,
           height: 125,
@@ -181,8 +183,42 @@ export const Realisation: React.FC = () => {
         });
       }
     };
+    const handleResize = (): any => {
+      if (window.innerWidth <= 1120 && window.innerWidth > 660) {
+        setSaizeCarroussel({
+          width: 250,
+          height: 500,
+        });
+      } else if (window.innerWidth <= 660 && window.innerWidth > 470) {
+        setSaizeCarroussel({
+          width: 175,
+          height: 350,
+        });
+      } else if (window.innerWidth <= 470 && window.innerWidth > 400) {
+        setSaizeCarroussel({
+          width: 150,
+          height: 300,
+        });
+      } else if (window.innerWidth <= 400) {
+        setSaizeCarroussel({
+          width: 125,
+          height: 250,
+        });
+      } else {
+        setSaizeCarroussel({
+          width: 300,
+          height: 600,
+        });
+      }
+    };
+    handleResizeHorizontal();
+    handleResize();
+    window.addEventListener("resize", handleResizeHorizontal);
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResizeHorizontal);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
   return (
     <div
@@ -190,12 +226,14 @@ export const Realisation: React.FC = () => {
       className={clsx(
         "flex",
         "flex-col",
-        "w-11/12",
+        "w-5/6",
         "max-w-4xl",
         "items-end",
         "relative",
-        "linkNotVisible:min-w-700",
-        "linkNotVisible:w-2/3"
+        // "forAbout:min-w-700",
+        "forAbout:w-11/12"
+        // "linkNotVisible:min-w-700",
+        // "linkNotVisible:w-2/3"
       )}
     >
       <WrapperAnim
@@ -204,7 +242,7 @@ export const Realisation: React.FC = () => {
       >
         <h1 className={style.title}>Réalisations</h1>
       </WrapperAnim>
-      <div className={style.mainContenair}>
+      <div className={clsx(style.mainContenair)}>
         <Carroussel
           images={imageOkeys}
           width={sizeCarroussel.width}
@@ -214,7 +252,7 @@ export const Realisation: React.FC = () => {
           Component={Image}
           color={"#64ffda"}
         />
-        <div className={style.desccriptionContenair}>
+        <div className={clsx(style.desccriptionContenair, "forAbout:w-11/12")}>
           <h1 className={clsx("text-xl", "text-textLigthLigth", "font-mono")}>
             Description
           </h1>
@@ -302,17 +340,14 @@ export const Realisation: React.FC = () => {
             Description
           </h1>
           <p className={clsx("text-text", "font-mono")}>
-            Création d'un agenda type Google Agenda en Open Source, via un
-            monorepo qui contient plusieurs composant React que j'ai créé, dont
-            le Carroussel utilisé dans ce portfolio. Une bonne maniere de voir
-            la qualité de mon code.
+            Création d'une Web app avec React et Materiel UI permettant
+            l'automatisation de la création d'une 'boutique'.
           </p>
           <h1 className={clsx("text-xl", "text-textLigthLigth", "font-mono")}>
             Technologies utilisées{" "}
           </h1>
           <p className={clsx("text-text", "font-mono")}>
-            | React JS | Typescript | Luxon JS | Redux Toolkit | Monorepo | Nx |
-            Lerna | Mui |
+            | React JS | Typescript | Redux Toolkit | Mui | AWS cloud |
           </p>
         </div>
       </div>
@@ -331,31 +366,17 @@ export const Realisation: React.FC = () => {
             Description
           </h1>
           <p className={clsx("text-text", "font-mono", "mb-4")}>
-            Création d'un agenda type Google Agenda en Open Source, via un
-            monorepo qui contient plusieurs composant React que j'ai créé, dont
-            le Carroussel utilisé dans ce portfolio. Une bonne maniere de voir
-            la qualité de mon code.
+            J'utilise Codin Game pour parfaire mes competences en algorithmie et
+            en résolution de problèmes.
           </p>
           <a
-            href="https://storybook-monorepo.vercel.app/"
+            href="https://www.codingame.com/profile/68534aa99235adadb53c9c360c42a39c5351984
+            "
+            target={"_blank"}
             className={style.link}
           >
             Mon profil Condin Game
           </a>
-          <h1
-            className={clsx(
-              "text-xl",
-              "text-textLigthLigth",
-              "font-mono",
-              "mt-4"
-            )}
-          >
-            Technologies utilisées{" "}
-          </h1>
-          <p className={clsx("text-text", "font-mono")}>
-            | React JS | Typescript | Luxon JS | Redux Toolkit | Monorepo | Nx |
-            Lerna | Mui |
-          </p>
         </div>
       </div>
     </div>

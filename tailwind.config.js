@@ -39,6 +39,7 @@ module.exports = {
         primaryLigthLigth: "#233554",
         primary: "#0a192f",
         secondary: "#64ffda",
+        hoverSecondary: "rgba(100,255,218,0.2)",
         textDark: "#495670",
         text: "#8892b0",
         textLigth: "#a8b2d1",
@@ -48,6 +49,9 @@ module.exports = {
         400: "400px",
         700: "700px",
       },
+      maxWidth: {
+        1000: "1000px",
+      },
       gridTemplateColumns: {
         140200: "repeat(2, minmax(140px, 200px))",
       },
@@ -56,11 +60,27 @@ module.exports = {
       },
       width: {
         forTextProjet: "calc(100% - 5rem)",
+        section: "calc(100% - 16rem)",
+        aside: "min(75vw, 400px)",
+        photo: "380px",
+        photoMd: "300px",
+        photoSm: "220px",
+      },
+      height: {
+        photo: "380px",
+        photoMd: "300px",
+        photoSm: "220px",
       },
       screens: {
         linkNotVisible: "850px",
         forAbout: { max: "950px" },
         forAboutLarge: { max: "1247px" },
+        photoMd: { max: "1380px" },
+        photoSm: { max: "1170px" },
+        photoBelow: { max: "1270px" },
+      },
+      fontSize: {
+        title: "clamp(40px, 8vw, 80px)",
       },
     },
     fontFamily: {

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import * as React from "react";
 
 export default function RootLayout({
@@ -9,6 +10,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        <link
+          type="image/png"
+          rel="shortcut icon"
+          href="../logoP.png"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

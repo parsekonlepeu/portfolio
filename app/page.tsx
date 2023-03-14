@@ -10,26 +10,11 @@ import { NetworkLink } from "./component/NetworkLink";
 import { EmailLink } from "./component/EmailLink";
 import { About } from "./component/About";
 import Link from "next/link";
+import logoP from "../public/logoP.png";
 import { Realisation } from "./component/Realisation";
-
-const animateline = clsx(
-  [
-    "after:w-full",
-    "after:scale-x-0",
-    "after:absolute",
-    "after:bottom-0",
-    "after:left-0",
-    "after:primary",
-    "after:content-['']",
-    "after:origin-left",
-    "after:transition",
-    "after:duration-300",
-    "after:bg-secondary",
-    "after:h-px",
-  ],
-  ["hover:after:scale-x-100"],
-  ["not:hover:after:scale-x-0"]
-);
+import { NavBar } from "./component/NavBar";
+import Head from "next/head";
+import { Contact } from "./component/Contact";
 
 const style = {
   contenair: clsx(
@@ -42,45 +27,13 @@ const style = {
     "bg-primary",
     "overflow-x-hidden"
   ),
-  header: clsx(
-    "fixed",
-    "flex h-16",
-    "top-0",
-    "left-0",
-    "right-3",
-    "justify-end",
-    "items-center",
-    "flex-row",
-    "bg-primary",
-    "pr-8",
-    "bg-primary",
-    "z-50"
-  ),
-  nav: clsx(
-    "flex",
-    "h-16",
-    "bg-primary",
-    "justify-end",
-    "items-center",
-    "flex-row",
-    "pr-4"
-  ),
-  link: clsx(
-    "before:mr-1",
-    "before:text-secondary",
-    "before:font-mono",
-    "text-textLigth",
-    "text-sm",
-    "font-serif",
-    "hover:text-secondary"
-  ),
   sectionBase: clsx(
-    "w-screen",
+    "w-section",
     "bg-primary",
     "justify-center",
     "items-center",
     "flex",
-    "bg-lime-800"
+    "forAbout:w-full"
   ),
 };
 
@@ -93,64 +46,26 @@ const Main: React.FC = () => {
       <Header />
       <NetworkLink />
       <EmailLink />
-      <header
-        id="header"
-        className={style.header}
-      >
-        <nav className={style.nav}>
-          <ol className="flex h-16 bg-primary justify-end items-center flex-row gap-x-10 ">
-            <li className="relative">
-              <a
-                className={clsx(
-                  "before:content-['01.']  ",
-                  animateline,
-                  style.link
-                )}
-                href="#about"
-              >
-                A propos
-              </a>
-            </li>
-            <li className="relative">
-              <a
-                className={clsx(
-                  "before:content-['02.']",
-                  animateline,
-                  style.link
-                )}
-                href="#Realisation"
-              >
-                Realisation
-              </a>
-            </li>
-            <li className="relative">
-              <a
-                className={clsx(
-                  "before:content-['04.']",
-                  animateline,
-                  style.link
-                )}
-                href="#contact"
-              >
-                Contact
-              </a>
-            </li>
-          </ol>
-          <Link
-            href="/cv-dev-2023.pdf"
-            target="_blank"
-          >
-            <p>Mon CV</p>
-          </Link>
-        </nav>
-      </header>
+      <NavBar />
       <main
         id="main"
-        className="pt-16 flex flex-col pb-96"
+        className="pt-16 flex flex-col pb-4 items-center duration-200"
       >
         <section
           id="home"
-          className={clsx(style.sectionBase, "h-screen")}
+          className={clsx(
+            "w-section",
+            "max-w-1000",
+            "bg-primary",
+            "ml-16",
+            "mr-16",
+            "forAbout:w-full",
+            "forAbout:pl-5",
+            "h-screen",
+            "flex",
+            "justify-start",
+            "items-center"
+          )}
         >
           <Home />
         </section>
@@ -175,7 +90,7 @@ const Main: React.FC = () => {
           id="contact"
           className={clsx(style.sectionBase)}
         >
-          contact
+          <Contact />
         </section>
       </main>
     </div>
