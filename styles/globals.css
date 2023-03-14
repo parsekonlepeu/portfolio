@@ -50,6 +50,7 @@ body {
 }
 
 body {
+  -webkit-font-smoothing : antialiased;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -71,6 +72,17 @@ a {
 .titre-section::after {
   content: '';
   margin-left: 30px;
+  margin-top: 5px;
+  display: block;
+  position: relative;
+  width: 20vw;
+  height: 1px;
+  background-color: #233554;
+}
+
+.titre-section-reverse::before {
+  content: '';
+  margin-right: 30px;
   margin-top: 5px;
   display: block;
   position: relative;

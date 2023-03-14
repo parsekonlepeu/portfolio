@@ -9,7 +9,7 @@ import { WrapperPhoto } from "./WrapperPhoto";
 import { WrapperAnim } from "./WrapperAnim";
 
 const classLiTechno = clsx(
-  "before:content-[`▹`]",
+  "before:content-['▹']",
   "before:text-secondary",
   "before:leading-3",
   "before:text-lg",
@@ -32,7 +32,14 @@ export const About: React.FC = () => {
   return (
     <div
       ref={ref}
-      className={clsx("border-px", "flex", "flex-col", "w-2/3", "max-w-4xl")}
+      className={clsx(
+        "border-px",
+        "flex",
+        "flex-col",
+        "w-5/6",
+        "max-w-6xl",
+        "forAbout:w-11/12"
+      )}
     >
       <WrapperAnim
         appeared={appeared}
@@ -62,11 +69,19 @@ export const About: React.FC = () => {
           A propos
         </h1>
       </WrapperAnim>
-      <div className={clsx("flex", "flex-wrap", "flex-row")}>
+      <div
+        className={clsx(
+          "flex",
+          "flex-row",
+          "forAbout:flex-col",
+          "forAbout:justify-center",
+          "forAbout:items-center"
+        )}
+      >
         <WrapperAnim
           appeared={appeared}
           startAnim="left"
-          classname={clsx("pr-10", "max-w-lg", "mb-8")}
+          classname={clsx("pr-10", "max-w-lg", "mb-8", "flex-1")}
         >
           <p className={clsx("text-text")}>
             {`
@@ -120,14 +135,23 @@ export const About: React.FC = () => {
         <WrapperAnim
           appeared={appeared}
           startAnim="right"
-          classname={clsx("max-w-xs")}
+          classname={clsx(
+            "photoMd:w-photoMd",
+            "photoMd:h-photoMd",
+            "photoSm:w-photoSm",
+            "photoSm:h-photoSm",
+            "w-photo",
+            "h-photo",
+            "flex",
+            "duration-75"
+          )}
         >
           <WrapperPhoto>
             <Image
               className={clsx("rounded-md")}
               src={photo}
-              alt="ess"
-              height={800}
+              alt="photo"
+              fill
             />
           </WrapperPhoto>
         </WrapperAnim>
